@@ -1,4 +1,5 @@
 # 3720CharadesGame - Final Project Charades Game using 2 APIs
+- API's using: Pygame, SQL database
 ## Team 4's repo - Ryan, Madison, Ben, Harper
 
 ## Running the Game Locally
