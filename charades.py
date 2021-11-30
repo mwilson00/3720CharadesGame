@@ -17,3 +17,24 @@ def set_font(self):
      self.font.set_bold(self.bold)
      self.font.set_italic(self.italic)
      self.font.set_underline(self.underline)
+
+
+playSurface = pygame.display.set_mode((720, 460))
+pygame.display.set_caption('!!! CHARADES !!!')
+playSurface.fill((255,255,255))
+pygame.display.flip()
+
+#cocntroller
+fpsController = pygame.time.Clock()
+
+#game logic
+while True:
+    for event in pygame.event.get():
+        #quitting
+        if event.type == pygame.QUIT: 
+            pygame.quit()
+        #in the game logic
+
+#way selecting through the genres - buttons
+#selecting genre -> timer 1min per player, 
+
