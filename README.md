@@ -17,7 +17,7 @@
 - Once the 1 min is up it is the next teams turn and the process repeats
 
 
-# Overview
+## Overview
 - Each team has one player go each turn, the current player has 1 min to go through as many cards as possible
 
 
