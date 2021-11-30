@@ -10,22 +10,39 @@ if check_errors[1] > 0:
 else:
     print("(!) PyGame Initialized Successfully")
 
+pygame.init()
 
-def set_font(self):
-     """Set the font and its properties."""
-     self.font = pygame.font.Font(self.fontname, self.fontsize)
-     self.font.set_bold(self.bold)
-     self.font.set_italic(self.italic)
-     self.font.set_underline(self.underline)
+#use this to know if start screen or not
+activeRouund = False
+#starts here -> once press start say round
+currentScreen = 'Start'
 
-
-playSurface = pygame.display.set_mode((720, 460))
-pygame.display.set_caption('!!! CHARADES !!!')
-playSurface.fill((255,255,255))
+screen = pygame.display.set_mode((720, 460))
+clock = pygame.time.Clock()
+timer = 60
+pygame.display.set_caption('\ (•◡•) / CHARADES \ (•◡•) /')
+screen.fill((255,255,255))
 pygame.display.flip()
+
+buttonColor = (100,100,100)
+screenW = screen.get_width()
+screenH = screen.get_height()
+
+font = pygame.font.SysFont('arial', 40)
+
+#text for the button
+nextButton = font.render('Next Card', True, buttonColor, (30, 45))
 
 #cocntroller
 fpsController = pygame.time.Clock()
+
+timer_text = font.render(str(round(timer, 1)), True, (240, 248, 255))
+#convert to seconds
+dt = clock.tick(60)/1000
+
+def mousePressend(event):
+    if(activeRouund == 'Round'):
+        #if next key pressed -> add draw a new card
 
 #game logic
 while True:
@@ -33,8 +50,17 @@ while True:
         #quitting
         if event.type == pygame.QUIT: 
             pygame.quit()
+        #if event.type == pygame.USEREVENT:
+            #if mouse clicked on button go to specific card deck and start game 
         #in the game logic
 
+#get the pos of the mouse so we can know which button
+mouse = pygame.mouse.get_pos()
+
+#place text onto next button - may need to change location
+screen.blit(nextButton, (screenW/2+50, screenH/2))
+pygame.display.flip()
+clock.tick(60)
 #way selecting through the genres - buttons
 #selecting genre -> timer 1min per player, 
 
