@@ -1,4 +1,4 @@
-### 3720CharadesGame - Final Project Charades Game using 2 APIs
+# 3720CharadesGame - Final Project Charades Game using 2 APIs
 ## Team 4's repo - Ryan, Madison, Ben, Harper
 
 ## Running the Game Locally
