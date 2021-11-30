@@ -21,7 +21,7 @@
 - Each team has one player go each turn, the current player has 1 min to go through as many cards as possible
 
 
-## Future updates (salad bowl version)
+## Future Updates (salad bowl version)
 - Have three levels where it loops through the deck three times
 - Level 1: The player can say as many words as they want to get their team member to guess the card
 - Level 2: The player can only say one word to describe the card
