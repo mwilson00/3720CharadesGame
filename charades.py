@@ -88,12 +88,12 @@ while True:
             clock -= 1
             # condition to stop timer at 0
             if clock <= 0:
-                clock = 0 ; pygame.time.set_timer(pygame.USEREVENT, 1000)
+                clock = 0 ; pygame.time.set_timer(pygame.USEREVENT, 0)
 
         # restarts timer at 60 on key [r] pressed 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
             clock = 60 ; pygame.time.set_timer(pygame.USEREVENT, 1000)   
-                 
+
         # if event.type == pygame.MOUSEBUTTONDOWN:
         #     if screenW/2-65 <= mouse[0] <= screenW/2-65+140 and screenH/2+50 <= mouse[1] <= screenH/2+50+40:
         #         #this is where we would get new card
