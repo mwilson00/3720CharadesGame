@@ -69,19 +69,31 @@ fpsController = pygame.time.Clock()
 #     if(activeRouund == 'Round'):
 #         #if next key pressed -> add draw a new card
 
+# sets timer to activate once per 1000 ms
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+
 #game logic
 while True:
     screen.fill((255,255,255))
     #the timer
-    if clock > 1:
-        time.sleep(1)
-        clock = clock-1
     timer = medFont.render('Time left: ' + str(clock), True, orange)
     screen.blit(timer, (290, 75))
     for event in pygame.event.get():
         #quitting
         if event.type == pygame.QUIT: 
             pygame.quit()
+
+        # condition to catch timer activation
+        elif event.type == pygame.USEREVENT:
+            clock -= 1
+            # condition to stop timer at 0
+            if clock <= 0:
+                clock = 0 ; pygame.time.set_timer(pygame.USEREVENT, 0)
+
+        # restarts timer at 60 on key [r] pressed 
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+            clock = 60 ; pygame.time.set_timer(pygame.USEREVENT, 1000)   
+
         # if event.type == pygame.MOUSEBUTTONDOWN:
         #     if screenW/2-65 <= mouse[0] <= screenW/2-65+140 and screenH/2+50 <= mouse[1] <= screenH/2+50+40:
         #         #this is where we would get new card
