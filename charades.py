@@ -87,7 +87,7 @@ class Button:
         screen.blit(text, bt)
 
 histButton = ToggleButton('History', 500, 200)
-celebButton = ToggleButton('Celebrity', 300, 200)
+celebButton = ToggleButton('Celebrities', 300, 200)
 movieButton = ToggleButton('Movies', 100, 200)
 submitButton = Button('Submit', 300, 300)
 
