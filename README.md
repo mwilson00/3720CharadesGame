@@ -7,6 +7,7 @@
 - Each team member needs to download the zip of this repo
 - To run the game you must install PyGame
 - python3 -m pip install -U pygame --user (some users are able to just do pip install pygame)
+- then you can just run in VSCode or other editor
 
 ## Game Instructions
 - Divide your team members up into two teams with even members and choose a score keeper
