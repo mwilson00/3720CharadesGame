@@ -12,10 +12,13 @@
 - Divide your team members up into two teams with even members and choose a score keeper
 - Each person starts the game on their individual local device 
 - Main menu: Select your genre of Charades
+- Click the 'submit' button when you are ready to start 
 - A random card will show up
 - The current team member who is playing has 1min to go through as many cards as they can
+- Once a card is guessed click 'Next Card for a New Card'
 - The score keeper writes down how many cards the player got 
 - Once the 1 min is up it is the next teams turn and the process repeats
+- To reset the timer press the 'r' key on your key board
 
 
 ## Overview
