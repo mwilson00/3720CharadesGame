@@ -29,6 +29,7 @@ screenH = screen.get_height()
 
 clock = 60
 font = pygame.font.SysFont('arial', 30)
+bigfont = pygame.font.SysFont('arial', 40)
 smallFont = pygame.font.SysFont('arial', 20)
 medFont = pygame.font.SysFont('arial', 25)
 
@@ -37,6 +38,29 @@ blue = (0, 32, 91)
 purple = (46,26,71)
 
 db = Database()
+
+def startScreen():
+    menuTitle = bigfont.render('Charades!', True, purple)
+    menuRect = menuTitle.get_rect()
+    menuRect.midtop = (360, 10)
+    screen.blit(menuTitle, menuRect)
+    #start button:
+    #genre buttons:
+    #return array of selected genres
+    return []
+
+
+
+
+
+
+
+def endScreen():
+    #nextPlayer button
+    #quitGame button
+    pass
+
+
 
 def activeRound():
     active = font.render('ACTIVE ROUND', True, purple) 
@@ -47,6 +71,7 @@ def activeRound():
     instructionsRect = instructions.get_rect()
     instructionsRect.midtop = (360, 50)
     screen.blit(instructions, instructionsRect) 
+
 
 def nextCardButton():
     nextButtonText = font.render('Next Card', True, orange)
@@ -73,14 +98,13 @@ fpsController = pygame.time.Clock()
 #         #if next key pressed -> add draw a new card
 
 # sets timer to activate once per 1000 ms
-pygame.time.set_timer(pygame.USEREVENT, 1000)
+pygame.time.set_timer(pygame.USEREVENT, 0)
 
 #game logic
 while True:
     screen.fill((255,255,255))
     #the timer
-    timer = medFont.render('Time left: ' + str(clock), True, orange)
-    screen.blit(timer, (290, 75))
+
     for event in pygame.event.get():
         #quitting
         if event.type == pygame.QUIT: 
@@ -103,11 +127,30 @@ while True:
         
         #get the pos of the mouse so we can know which button
         mouse = pygame.mouse.get_pos()
-        activeRound()
-        nextCardButton()
-        currentCard()
+
+        inMain = True
+
+        if inMain:
+            selectedGenres = startScreen()
+
+            #inMain = false
+            
+        if not inMain:
+            pygame.time.set_timer(pygame.USEREVENT, 1000)
+            activeRound()
+            timer = medFont.render('Time left: ' + str(clock), True, orange)
+            screen.blit(timer, (290, 75))
+
+            
+            nextCardButton()
+            currentCard()
         #update game
+
+
         pygame.display.update()
+            #endScreen
+            #endScreen()
+
 
 
 #way selecting through the genres - buttons
