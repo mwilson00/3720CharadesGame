@@ -1,6 +1,7 @@
 #cpsc3720
 
 import pygame, sys, random, time
+from database.database import Database
 check_errors = pygame.init()
 
 #make sure initializes correctly
@@ -34,6 +35,8 @@ medFont = pygame.font.SysFont('arial', 25)
 orange = (245, 102,0)
 blue = (0, 32, 91)
 purple = (46,26,71)
+
+db = Database()
 
 def activeRound():
     active = font.render('ACTIVE ROUND', True, purple) 
