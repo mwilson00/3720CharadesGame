@@ -39,28 +39,81 @@ purple = (46,26,71)
 
 db = Database()
 
-def startScreen():
+class ToggleButton:
+    def __init__(self, iName, xPos = 0, yPos = 0):
+        self.toggle = False
+        self.name = iName ; self.x = xPos; self.y = yPos
+        text = font.render(self.name, True, orange)
+
+        bt = text.get_rect()
+        bt.midbottom = self.x + 50, self.y + 40
+        pygame.draw.rect(screen, purple,[self.x - 25,self.y, 145,40])
+        screen.blit(text, bt)
+
+    def inBounds(self, mouse):
+        if self.x - 25 <= mouse[0] <= self.x + 120 and self.y <= mouse[1] <= self.y + 40:
+            self.toggle = not self.toggle
+            self.color()
+            
+    def color(self):
+        text = font.render(self.name, True, orange)
+        bt = text.get_rect()
+        bt.midbottom = self.x + 50, self.y + 40
+        RectColor = blue if self.toggle == True else purple
+        pygame.draw.rect(screen, RectColor,[self.x - 25,self.y, 145,40])
+        screen.blit(text, bt)
+
+class Button:
+    def __init__(self, iName, xPos = 0, yPos = 0):
+        self.name = iName ; self.x = xPos; self.y = yPos
+        self.count = 0 
+        text = font.render(self.name, True, orange)
+
+        bt = text.get_rect()
+        bt.midbottom = self.x + 50, self.y + 40
+        pygame.draw.rect(screen, purple,[self.x - 25,self.y, 145,40])
+        screen.blit(text, bt)
+
+    def inBounds(self, mouse):
+        if self.x - 25 <= mouse[0] <= self.x + 120 and self.y <= mouse[1] <= self.y + 40:
+            return True 
+        return False
+            
+    def color(self):
+        text = font.render(self.name, True, orange)
+        bt = text.get_rect()
+        bt.midbottom = self.x + 50, self.y + 40
+        pygame.draw.rect(screen, purple,[self.x - 25,self.y, 145,40])
+        screen.blit(text, bt)
+
+histButton = ToggleButton('History', 500, 200)
+celebButton = ToggleButton('Celebrity', 300, 200)
+movieButton = ToggleButton('Movies', 100, 200)
+submitButton = Button('Submit', 300, 300)
+
+def startScreen(event, mouse):
     menuTitle = bigfont.render('Charades!', True, purple)
     menuRect = menuTitle.get_rect()
     menuRect.midtop = (360, 10)
     screen.blit(menuTitle, menuRect)
-    #start button:
-    #genre buttons:
-    #return array of selected genres
-    return []
 
+    histButton.color()
+    celebButton.color()
+    movieButton.color()
+    submitButton.color()
 
+    breakLoop = False
 
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        histButton.inBounds(mouse)
+        celebButton.inBounds(mouse)
+        movieButton.inBounds(mouse)
+        breakLoop = submitButton.inBounds(mouse)
 
-
-
-
-def endScreen():
-    #nextPlayer button
-    #quitGame button
-    pass
-
-
+    if breakLoop:
+        return db.get_cards([i.name for i in [histButton, celebButton, movieButton] if i.toggle])
+    
+    return None
 
 def activeRound():
     active = font.render('ACTIVE ROUND', True, purple) 
@@ -72,20 +125,14 @@ def activeRound():
     instructionsRect.midtop = (360, 50)
     screen.blit(instructions, instructionsRect) 
 
+nextCardBT = Button('Next Card', screenW/2 - 45,screenH/2+85)
 
 def nextCardButton():
-    nextButtonText = font.render('Next Card', True, orange)
-    #creating next button
-    nextButton = nextButtonText.get_rect()
-    #set center of next button
-    nextButton.midbottom = screenW/2,screenH/2+85
-    #create button
-    pygame.draw.rect(screen, purple,[screenW/2-72,screenH/2+50, 145,40])
-    #but text onto the button
-    screen.blit(nextButtonText, nextButton)
+    nextCardBT.color()
 
-def currentCard():
-    currCard = font.render('[CARD]', True, blue) 
+def currentCard(sg, ind):
+    cardLabel = 'No More Cards!' if ind >= len(sg) else sg[ind]
+    currCard = font.render( cardLabel, True, blue) 
     currCardRect = currCard.get_rect()
     currCardRect.midtop = (X/2, Y/2-40)
     screen.blit(currCard, currCardRect) 
@@ -93,15 +140,12 @@ def currentCard():
 #cocntroller
 fpsController = pygame.time.Clock()
 
-# def mousePressend(event):
-#     if(activeRouund == 'Round'):
-#         #if next key pressed -> add draw a new card
-
 # sets timer to activate once per 1000 ms
 pygame.time.set_timer(pygame.USEREVENT, 0)
-
+inMain = True ; count = 0 
 #game logic
 while True:
+    fpsController.tick(30)
     screen.fill((255,255,255))
     #the timer
 
@@ -116,24 +160,14 @@ while True:
             # condition to stop timer at 0
             if clock <= 0:
                 clock = 0 ; pygame.time.set_timer(pygame.USEREVENT, 0)
-
-        # restarts timer at 60 on key [r] pressed 
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-            clock = 60 ; pygame.time.set_timer(pygame.USEREVENT, 1000)   
-
-        # if event.type == pygame.MOUSEBUTTONDOWN:
-        #     if screenW/2-65 <= mouse[0] <= screenW/2-65+140 and screenH/2+50 <= mouse[1] <= screenH/2+50+40:
-        #         #this is where we would get new card
         
         #get the pos of the mouse so we can know which button
         mouse = pygame.mouse.get_pos()
 
-        inMain = True
-
         if inMain:
-            selectedGenres = startScreen()
-
-            #inMain = false
+            selectedGenres = startScreen(event, mouse)
+            if selectedGenres is not None:
+                inMain = False
             
         if not inMain:
             pygame.time.set_timer(pygame.USEREVENT, 1000)
@@ -141,17 +175,17 @@ while True:
             timer = medFont.render('Time left: ' + str(clock), True, orange)
             screen.blit(timer, (290, 75))
 
+            if event.type == pygame.MOUSEBUTTONDOWN and nextCardBT.inBounds(mouse):
+                count += 1
             
-            nextCardButton()
-            currentCard()
-        #update game
+            # restarts timer at 60 on key [r] pressed 
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                clock = 60 ; pygame.time.set_timer(pygame.USEREVENT, 1000)  
 
+            nextCardButton()
+            currentCard(selectedGenres, count)
 
         pygame.display.update()
-            #endScreen
-            #endScreen()
-
-
 
 #way selecting through the genres - buttons
 #selecting genre -> timer 1min per player, 
